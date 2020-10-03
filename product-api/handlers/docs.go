@@ -25,6 +25,14 @@ type errorResponseWrapper struct {
 	Body GenericError
 }
 
+// Validation errors defined as an array of strings
+// swagger:response errorValidation
+type errorValidationWrapper struct {
+	// Collection of the errors
+	// in: body
+	Body ValidationError
+}
+
 //	A list of products returns in the response
 //	swagger:response productsResponse
 type productsResponse struct {
@@ -33,7 +41,7 @@ type productsResponse struct {
 	Body []data.Product
 }
 
-//	swagger:parameters deleteProducts
+//	swagger:parameters updateProducts
 type productIDParameterWrapper struct {
 	//	The id of the product to delete from database
 	//	in: path
