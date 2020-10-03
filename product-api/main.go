@@ -30,7 +30,7 @@ func main() {
 	putRouter.Use(ph.MiddleWareValidateProduct)
 
 	postRouter := sm.Methods(http.MethodPost).Subrouter()
-	postRouter.HandleFunc("/", ph.Add)
+	postRouter.HandleFunc("/", ph.Create)
 	postRouter.Use(ph.MiddleWareValidateProduct)
 
 	deleteRouter := sm.Methods(http.MethodDelete).Subrouter()
