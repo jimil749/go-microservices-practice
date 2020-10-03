@@ -2,25 +2,41 @@ package handlers
 
 import (
 	"net/http"
-	"strconv"
 
-	"github.com/gorilla/mux"
 	"github.com/jimil749/go-microservices-practice/product-api/data"
 )
 
-//Delete deletes the item from the list
+//	swagger:route DELETE /products/{id} products deleteProducts
+//	Update a list of products
+//
+//	responses:
+//		201: noContent
+//	404: errorResponse
+//	404: errorResponse
+
+//Delete handles DELETE requests and removes items from database
 func (p *Products) Delete(rw http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id := getProductID(r)
 
-	if err != nil {
-		http.Error(rw, "Unable to convertID", http.StatusBadRequest)
+	p.l.Println("[DEBUG] deleting record id", id)
+
+	err := data.DeleteProduct(id)
+
+	if err == data.ErrProductNotFound {
+		p.l.Println("[ERROR] deleting record id does not exist")
+
+		rw.WriteHeader(http.StatusNotFound)
+		data.ToJSON(&GenericError{Message: err.Error()}, rw)
 		return
 	}
 
-	err = data.DeleteProduct(id)
 	if err != nil {
-		http.Error(rw, "Unale to find the element", http.StatusNotFound)
+		p.l.Println("[ERROR] deleting record", err)
+
+		rw.WriteHeader(http.StatusInternalServerError)
+		data.ToJSON(&GenericError{Message: err.Error()}, rw)
 		return
 	}
+
+	rw.WriteHeader(http.StatusNoContent)
 }

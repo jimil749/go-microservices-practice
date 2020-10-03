@@ -8,12 +8,18 @@ import (
 
 //	swagger:route GET /products products listProducts
 //	Returns a list of products
+//	responses:
+//		200: productsResponse
 
 //ListAll gets the products
 func (p *Products) ListAll(rw http.ResponseWriter, r *http.Request) {
-	lp := data.GetProducts()
-	err := lp.ToJSON(rw)
+	p.l.Println("[DEBUG] get all records")
+
+	prods := data.GetProducts()
+
+	err := data.ToJSON(prods, rw)
+
 	if err != nil {
-		http.Error(rw, "Unable to marshal to json", http.StatusInternalServerError)
+		p.l.Println("[ERROR] serializing the product", err)
 	}
 }
