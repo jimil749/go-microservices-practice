@@ -1,6 +1,29 @@
 basePath: /
 consumes:
 - application/json
+definitions:
+  Product:
+    description: Product struct
+    properties:
+      description:
+        type: string
+        x-go-name: Description
+      id:
+        format: int64
+        type: integer
+        x-go-name: ID
+      name:
+        type: string
+        x-go-name: Name
+      price:
+        format: float
+        type: number
+        x-go-name: Price
+      sku:
+        type: string
+        x-go-name: SKU
+    type: object
+    x-go-package: github.com/jimil749/go-microservices-practice/product-api/data
 info:
   description: Documentation for Product API
   title: of Product API
@@ -10,10 +33,38 @@ paths:
     get:
       description: Returns a list of products
       operationId: listProducts
+      responses:
+        "200":
+          $ref: '#/responses/productsResponse'
+      tags:
+      - products
+  /products/{id}:
+    delete:
+      description: Returns a list of products
+      operationId: deleteProducts
+      parameters:
+      - description: The id of the product to delete from database
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "201":
+          $ref: '#/responses/noContent'
       tags:
       - products
 produces:
 - application/json
+responses:
+  noContent: {}
+  productsResponse:
+    description: A list of products returns in the response
+    schema:
+      items:
+        $ref: '#/definitions/Product'
+      type: array
 schemes:
 - http
 swagger: "2.0"
