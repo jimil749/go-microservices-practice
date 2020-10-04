@@ -6,11 +6,11 @@ import (
 	"github.com/jimil749/go-microservices-practice/product-api/data"
 )
 
-//	swagger:route DELETE /products/{id} products deleteProducts
+//	swagger:route DELETE /products/{id} products deleteProduct
 //	Update a list of products
 //
 //	responses:
-//		201: noContent
+//		201: noContentResponse
 //	404: errorResponse
 //	404: errorResponse
 
