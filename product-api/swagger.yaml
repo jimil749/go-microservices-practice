@@ -67,6 +67,15 @@ paths:
     post:
       description: Create a new product
       operationId: createProduct
+      parameters:
+      - description: |-
+          Product data structure to Update or Create.
+          Note: the id field is ignored by update and create operations
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/Product'
       responses:
         "200":
           $ref: '#/responses/productResponse'
@@ -79,6 +88,22 @@ paths:
     put:
       description: Update a products details
       operationId: updateProduct
+      parameters:
+      - description: |-
+          Product data structure to Update or Create.
+          Note: the id field is ignored by update and create operations
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/Product'
+      - description: The id of the product to delete from database
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
       responses:
         "201":
           $ref: '#/responses/noContentResponse'
@@ -91,10 +116,10 @@ paths:
   /products/{id}:
     delete:
       description: Update a list of products
-      operationId: deleteProducts
+      operationId: deleteProduct
       responses:
         "201":
-          $ref: '#/responses/noContent'
+          $ref: '#/responses/noContentResponse'
         "404":
           $ref: '#/responses/errorResponse'
       tags:
@@ -108,6 +133,12 @@ responses:
     description: Validation errors defined as an array of strings
     schema:
       $ref: '#/definitions/ValidationError'
+  noContentResponse:
+    description: No content is returned by this API endpoint
+  productResponse:
+    description: Data structure representing a single product
+    schema:
+      $ref: '#/definitions/Product'
   productsResponse:
     description: A list of products returns in the response
     schema:

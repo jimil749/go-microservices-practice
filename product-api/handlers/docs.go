@@ -41,7 +41,29 @@ type productsResponse struct {
 	Body []data.Product
 }
 
-//	swagger:parameters updateProducts
+// Data structure representing a single product
+// swagger:response productResponse
+type productResponseWrapper struct {
+	// Newly created product
+	// in: body
+	Body data.Product
+}
+
+// No content is returned by this API endpoint
+// swagger:response noContentResponse
+type noContentResponseWrapper struct {
+}
+
+// swagger:parameters updateProduct createProduct
+type productParamsWrapper struct {
+	// Product data structure to Update or Create.
+	// Note: the id field is ignored by update and create operations
+	// in: body
+	// required: true
+	Body data.Product
+}
+
+//	swagger:parameters updateProduct
 type productIDParameterWrapper struct {
 	//	The id of the product to delete from database
 	//	in: path
